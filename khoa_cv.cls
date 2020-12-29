@@ -1,19 +1,31 @@
 % Created by Khoa Nguyen-Tuan 
 % this CV is modified from Murat Can Karacabey's CV template.
-% I removed the small caps for normal looking.	
+%   + Removed the small caps for normal looking.
+%   + Added reference section
 
-
+% ---------------------------------------
 \author{Khoa Nguyen-Tuan}
 \RequirePackage[dvipsnames]{xcolor} % moved here I guess article class causes option clash with xcolor if used after loading the class
 
+
+% ---------------------------------------
 % Load article as base Class
+% ---------------------------------------
 \LoadClass[11pt]{article}
 
+
+% ---------------------------------------
 % 2 General starting lines
+% ---------------------------------------
+% Load latex package
 \NeedsTeXFormat{LaTeX2e}
+% Name class and date
 \ProvidesClass{khoa_cv}[2020/12/29 Khoa CV Class]
 
 
+% ---------------------------------------
+% Add packages
+% ---------------------------------------
 \RequirePackage[sfdefault]{noto}
 \RequirePackage{etoolbox}
 \RequirePackage{pgffor}
@@ -29,56 +41,38 @@
 \RequirePackage{array}
 \pagestyle{empty}
 
-%Setup
 
-\newcommand*{\setname}[2]{\def\@firstname{#1}\def\@lastname{#2}}
-\newcommand*{\setaddress}[1]{\def\@address{#1}}
-\newcommand*{\setmobile}[1]{\def\@mobile{#1}}
-\newcommand*{\setposition}[1]{\def\@position{#1}}
-\newcommand*{\setmail}[1]{\def\@mail{#1}}
-\newcommand*{\setthemecolor}[1]{\def\@themecolor{#1}}
-\newcommand*{\setlinkedinaccount}[1]{\def\@linkedinaccount{#1}}
-\newcommand*{\setgithubaccount}[1]{\def\@githubaccount{#1}}
+% ---------------------------------------
+% Setup command for personal information input
+% ---------------------------------------
+\newcommand*{\setname}[2]{\def\@firstname{#1}\def\@lastname{#2}}    % name 
+\newcommand*{\setaddress}[1]{\def\@address{#1}}                     % address
+\newcommand*{\setmobile}[1]{\def\@mobile{#1}}                       % mobile
+\newcommand*{\setposition}[1]{\def\@position{#1}}                   % position
+\newcommand*{\setmail}[1]{\def\@mail{#1}}                           % mail
+\newcommand*{\setthemecolor}[1]{\def\@themecolor{#1}}               % theme color
+\newcommand*{\setlinkedinaccount}[1]{\def\@linkedinaccount{#1}}     % Linkedin account
+\newcommand*{\setgithubaccount}[1]{\def\@githubaccount{#1}}         % GitHub account
 
-%Setup for coverletter
 
+% ---------------------------------------
+% Setup input command for coverletter
+% ---------------------------------------
 \newcommand*{\setcompanyname}[1]{\def\@companyname{#1}}
 \newcommand*{\setcontactperson}[1]{\def\@contactperson{#1}}
 \newcommand*{\setclaimedposition}[1]{\def\@claimedposition{#1}}
 
 
+% Color
 \hypersetup{
     colorlinks=true,
     urlcolor=cyan,
 }
 
-% View commands
-% Header
 
-% can makebox also be used?
-\newcommand\headerview{
-\begin{minipage}{0.25\linewidth}
-    \profpic{0.4}{images/profilpicture}
-\end{minipage}% 
-\hfill
-\begin{minipage}{0.45\linewidth}
-    \center \name \\[0.05cm] 
-    \contact % address \ mobile \\ mail
-\end{minipage}
-}
-% \newcommand\headerview{
-% \begin{minipage}{0.25\linewidth}
-%     \profpic{0.22}{images/profilpicture}
-% \end{minipage}% 
-% \hfill
-% \begin{minipage}{0.45\linewidth}
-%     \center \name \\[0.05cm] 
-%     \contact % address \ mobile \\ mail
-% \end{minipage}
-% }
-
-%profilpicture
-
+% ---------------------------------------
+% Configure circle containing profile picture
+% ---------------------------------------
 \newsavebox{\picbox}
 \newcommand{\profpic}[2]{%
     \savebox{\picbox}{%
@@ -89,27 +83,42 @@
     path picture={ \node at (path picture bounding box.center)% 
     {\usebox{\picbox}};}]% 
     {};}
-    
-%contactsubviews 
-    
-    
-\newcommand{\githubview}{\href{\@linkedinaccount}{\faLinkedinSquare\ \footnotesize linkedin}}
-\newcommand{\linkedinview}{\href{\@githubaccount}{\faGithubSquare\ \footnotesize github}}
 
+% ---------------------------------------
+% Setup personal information, linkedin & github logo
+% ---------------------------------------
 \newcommand{\name}{%
-    % {\large \@firstname \ \textsc{\@lastname}}
     {\large \@firstname \ \textmd{\@lastname}}
 }
-
 \newcommand{\contact}{%
         {\small \@address  \cps \@mobile \\ \@mail%
         \\%
         \linkedinview \cps \githubview \\ 
         } % 
 }
+\newcommand{\githubview}{\href{\@linkedinaccount}{\faLinkedinSquare\ \footnotesize linkedin}}
+\newcommand{\linkedinview}{\href{\@githubaccount}{\faGithubSquare\ \footnotesize github}}
 
+
+% ---------------------------------------
+% Display profile picture and Personal information
+% ---------------------------------------
+\newcommand\headerview{
+\begin{minipage}{0.25\linewidth}
+    \profpic{0.4}{images/profilpicture}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\linewidth}
+    \center \name \\[0.05cm] 
+    \contact 
+\end{minipage}
+}
+
+
+
+% ---------------------------------------
 % Covverletterview
-
+% ---------------------------------------
 \newcommand\coverletter[1]{ 
 \\  \coverlettersubview 
 \section{} \vspace{1ex} 
@@ -124,20 +133,24 @@ Position: & \@claimedposition \\
 \end{tabular}
 }
 
-
+% ---------------------------------------
 % Helper commands
+% ---------------------------------------
+% a trick to put the line with <before> parameter in \titleformat
+\newcommand\ruleafter[1]{#1~{\color{black!60!\@themecolor}\hrulefill}} 
 
-\newcommand\ruleafter[1]{#1~{\color{black!60!\@themecolor}\hrulefill}} % a trick to put the line with <before> parameter in \titleformat
 
+% ---------------------------------------
 %colorfulpipeseperator
-
+% ---------------------------------------
 \newcommand{\cps}{{\color{\@themecolor} \quad\textbar\quad}}
 \newcommand{\cpshalf}{{\color{\@themecolor} \hspace{0.2em}\textbar\hspace{0.2em}}}
 
 \newcommand{\coloredbullet}{{\color{\@themecolor} \textbullet}}
 
+% ---------------------------------------
 % Edit section styles
-
+% ---------------------------------------
 \titleformat{\section}      % Customise the \section command 
   {\large\bfseries\scshape\raggedright\color{\@themecolor}} % Make the \section headers large (\Large),
                                % small capitals (\scshape) and left aligned (\raggedright)
@@ -146,24 +159,28 @@ Position: & \@claimedposition \\
 
 \titlespacing*{\section}{-1pt}{0pt}{0pt}
 
-% Textview commands
-
-\newcommand{\experience}[2]{%
-%   \mbox { \hspace{1em} \scshape \textbf{#1} }%
-  \mbox { \hspace{1em} \mdseries \textbf{#1} }%
+% ---------------------------------------
+% Summary
+% ---------------------------------------
+\newcommand{\addblocktext}[2]{%
+  \section{#1} 
+  \indent \explanationdetail{\hspace{4ex} #2}
 }
 
+% ---------------------------------------
+% experience
+% ---------------------------------------
+\newcommand{\experience}[2]{%
+  \mbox { \hspace{1em} \mdseries \textbf{#1} }%
+}
 \newcommand{\datetext}[1]{%
 {\itshape  \footnotesize \mdseries  \color{black!60!\@themecolor} #1 } 
 }
-
 \newcommand{\datedexperience}[2]{%
-    % \begin{small} \mbox { \hspace{1em} \scshape \textbf{#1} } \end{small} \hfill \datetext{#2}\\[0.01cm] %
     \begin{small} \mbox { \hspace{1em} \mdseries \textbf{#1} } \end{small} \hfill \datetext{#2}\\[0.01cm] %
 }
 
 \newcommand{\explanation}[1]{%
-    % \mbox { \scshape \hspace{1.2em} \footnotesize #1}\\[0.05cm]
     \mbox { \mdseries \hspace{1.2em} \footnotesize #1}\\[0.05cm]
 }
 
@@ -175,10 +192,7 @@ Position: & \@claimedposition \\
     \begin{minipage}{\linewidth} \footnotesize \item #1 \end{minipage}
 }
 
-\newcommand{\addblocktext}[2]{%
-  \section{#1} 
-  \indent \explanationdetail{\hspace{4ex} #2}
-}
+
 
 \newcommand\createskill[2]{%
     % \textsc{\textbf{#1}} & #2
